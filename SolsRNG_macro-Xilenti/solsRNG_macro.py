@@ -22,11 +22,11 @@ import keyboard
 currentDirectory = os.path.dirname(os.path.abspath(__file__))
 COLLECT_ITEM_PATH = f'{currentDirectory}\\path.ahk'
 CONFIG_PATH = f'{currentDirectory}\\config.ini'
-defaultSetting = {'ahkPath': 'C:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe', 'vip': '0'}
+defaultSetting = {'ahkpath': 'C:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe', 'vip': '0'}
 
-def saveSetting():
+def saveSetting(setting=None):
     config = configparser.ConfigParser()
-    config['setting'] = setting
+    config['setting'] = setting if setting is not None else globals()['setting']
     with open(CONFIG_PATH, 'w') as file:
         config.write(file)
 
@@ -38,7 +38,7 @@ def loadSetting():
         setting = setting['setting']
     except:
         setting = defaultSetting
-        saveSetting()
+        saveSetting(setting)
     return setting
 
 setting = loadSetting()
