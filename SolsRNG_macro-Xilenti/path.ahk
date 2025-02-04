@@ -13,7 +13,13 @@ loadVIP(){
 }
 
 walkSend(key, state){
-    Send('{' . key . state . '}')
+    Send('{' . key . ' ' . state . '}')
+}
+
+hold(key, time){
+    Send('{' . key . ' down}')
+    Sleep(time)
+    Send('{' . key . ' up}')
 }
 
 getWalkSleep(time){
@@ -37,13 +43,32 @@ reset(){
     Sleep(2000)
 }
 
+fixZoom(){
+    hold('i', 2000)
+    hold('o', 750)
+    Sleep(200)
+}
+
+
+fixCameraAngle(){
+    CoordMode('Mouse', 'Client')
+    SendMode('Event')
+    MouseMove(A_ScreenWidth / 2, A_ScreenHeight * 0.25, 5)
+    Send('{RButton down}')
+    MouseMove(A_ScreenWidth / 2, (A_ScreenHeight*0.25)+5, 50)
+    Send('{RButton up}')
+    Sleep(200)
+}
+
 alignCamera(){
     reset()
     Send('\')
     Sleep(200)
-    Send('a')
-    Sleep(200)
     loop 4 {
+        Send('a')
+        Sleep(200)
+    }
+    loop 3 {
         Send('w')
         Sleep(200)
     }
@@ -53,19 +78,25 @@ alignCamera(){
     Sleep(200)
     Send('\')
     Sleep(200)
+    fixZoom()
+    fixCameraAngle()
 }
 
 alignCharacter(){
+    alignCamera()
     walkSend('d', 'down')
-    walkSleep(1000)
     walkSend('w', 'down')
-    walkSleep(2000)
+    walkSleep(1750)
     walkSend('w', 'up')
     walkSleep(5000)
     walkSend('s', 'down')
     walkSleep(2000)
     upKey()
-    walkSleep(2000)
+    walkSend('w', 'down')
+    walkSend('a', 'down')
+    walkSleep(500)
+    upKey()
+    Sleep(200)
 }
 
 runPath(){
@@ -74,6 +105,7 @@ runPath(){
         if (alignment) {
             alignCharacter()
         }
+        MsgBox('Path unavailable')
         loop {
             ;insert path here
         } 
