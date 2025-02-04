@@ -20,8 +20,6 @@ import webbrowser
 import keyboard
 
 currentDirectory = os.path.dirname(os.path.abspath(__file__))
-print(currentDirectory)
-keyboard.wait('F1')
 COLLECT_ITEM_PATH = f'{currentDirectory}\\path.ahk'
 CONFIG_PATH = f'{currentDirectory}\\config.ini'
 defaultSetting = {'ahkPath': 'C:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe', 'vip': '0'}
