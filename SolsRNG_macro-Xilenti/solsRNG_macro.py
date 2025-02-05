@@ -52,7 +52,7 @@ def getAhkPath():
             print('AutoHotkey v2 path not found')
             print('Please install AutoHotkey v2')
             print('or enter AutoHotkey v2 (AutoHotkey64.exe) path')
-            print('Enter 1 to install AutoHotkey v2')
+            print('Enter 1 to download AutoHotkey v2')
             print('Enter 2 to enter AutoHotkey v2 path')
             response = input()
             if response == '1':
@@ -81,11 +81,11 @@ def saveVIP():
 
 getVIP()
 
-def runPath(alignment=True):
+def runPath():
     if gw.getWindowsWithTitle('path.ahk'):
         return
     try:
-        subprocess.run([setting['ahkpath'], COLLECT_ITEM_PATH, '1' if alignment else '0'])
+        subprocess.run([setting['ahkpath'], COLLECT_ITEM_PATH])
     except Exception as e:
         print('Autohotkey v2 path might not be of correct directory')
         response = input('do you want to re-enter the autohotkey v2 path? (y/n): ')
@@ -108,5 +108,4 @@ print('Press F3 to exit macro')
 
 keyboard.add_hotkey('shift+F1', saveVIP)
 keyboard.add_hotkey('F1', runPath)
-keyboard.add_hotkey('F4', lambda: runPath(alignment=False))
 keyboard.wait('F3')

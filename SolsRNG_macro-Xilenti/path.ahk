@@ -6,7 +6,6 @@ defaultSetting := 0
 VIP := loadVIP()
 VIP_WALK_SPEED := 1.25
 possibleKeys := ['w', 'a', 's', 'd']
-alignment := Integer(A_Args[1])
 
 loadVIP(){
     return Integer(IniRead(CONFIG_PATH, 'setting', 'vip', defaultSetting))
@@ -16,15 +15,29 @@ walkSend(key, state){
     Send('{' . key . ' ' . state . '}')
 }
 
+press(key, time){
+    walkSend(key, 'down')
+    walkSleep(time)
+    walkSend(key, 'up')
+}
+
+diagonalMovement(key1, key2, time){
+    walkSend(key1, 'down')
+    walkSend(key2, 'down')
+    walkSleep(time)
+    walkSend(key1, 'up')
+    walkSend(key2, 'up')
+}
+
 hold(key, time){
-    Send('{' . key . ' down}')
+    walkSend(key, 'down')
     Sleep(time)
-    Send('{' . key . ' up}')
+    walkSend(key, 'up')
 }
 
 getWalkSleep(time){
     global VIP_WALK_SPEED
-    if (VIP) {
+    if (!VIP) {
         time *= VIP_WALK_SPEED
     }
     return time
@@ -34,13 +47,19 @@ walkSleep(time){
     Sleep(getWalkSleep(time))
 }
 
-reset(){
+resetCharacter(){
     Send('{Escape}')
     Sleep(500)
     Send('r')
     Sleep(500)
     Send('{Enter}')
     Sleep(2000)
+}
+collectItem(){
+    loop 4 {
+        Send('e')
+        Sleep(500)
+    }
 }
 
 fixZoom(){
@@ -54,14 +73,14 @@ fixCameraAngle(){
     CoordMode('Mouse', 'Client')
     SendMode('Event')
     MouseMove(A_ScreenWidth / 2, A_ScreenHeight * 0.25, 5)
-    Send('{RButton down}')
+    walkSend('RButton', 'down')
     MouseMove(A_ScreenWidth / 2, (A_ScreenHeight*0.25)+5, 50)
-    Send('{RButton up}')
+    walkSend('RButton', 'up')
     Sleep(200)
 }
 
 alignCamera(){
-    reset()
+    resetCharacter()
     Send('\')
     Sleep(200)
     loop 4 {
@@ -85,29 +104,46 @@ alignCamera(){
 alignCharacter(){
     alignCamera()
     walkSend('d', 'down')
+    walkSleep(1000)
     walkSend('w', 'down')
-    walkSleep(1750)
+    walkSleep(2250)
     walkSend('w', 'up')
-    walkSleep(5000)
+    walkSleep(4000)
     walkSend('s', 'down')
-    walkSleep(2000)
+    walkSleep(1500)
     upKey()
-    walkSend('w', 'down')
-    walkSend('a', 'down')
-    walkSleep(500)
-    upKey()
+    diagonalMovement('w', 'a', 500)
     Sleep(200)
+}
+
+goToItem(number){
+    ;comment the number of the item
+    ;that can be seen in the wiki
+    ;https://sol-rng.fandom.com/wiki/Items
+    ;comment what you used to create the path (vip/non-vip)
+    ;and if tested or not
+    if (number == 1){
+        ;by xilenti
+        ;number 26 on wiki
+        ;in vip account
+        ;tested with non-vip account
+        press('a', 1000)
+        press('w', 250)
+        collectItem()
+    }
+}
+
+path(){
+    goToItem(1)
+    alignCharacter()
 }
 
 runPath(){
     if WinExist('Roblox') {
         WinActivate('Roblox')
-        if (alignment) {
-            alignCharacter()
-        }
-        MsgBox('Path unavailable')
+        alignCharacter()
         loop {
-            ;insert path here
+            path()
         } 
     } else {
         MsgBox('Roblox not found')
