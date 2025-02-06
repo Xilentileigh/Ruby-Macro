@@ -4,7 +4,7 @@ Which focuses mainly on paths or collecting items around the map
 **PRE EON 1 SOLS RNG**
 
 items spawned around the map and people had to go to them to collect them.
-there were a total of 8 item spots
+there were a total of 8 item spots.
 people didnt like to manually collect these items.
 so they would use macros so that they could afk and still collect items.
 
