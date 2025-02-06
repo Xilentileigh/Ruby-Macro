@@ -51,7 +51,9 @@ def getAhkPath():
             os.system('cls')
             print('AutoHotkey v2 path not found')
             print('Please install AutoHotkey v2')
-            print('or enter AutoHotkey v2 (AutoHotkey64.exe) path')
+            print('or enter AutoHotkey v2 path')
+            print('"AutoHotkey64.exe" for 64 bit operating system')
+            print('and "AutoHotkey32.exe" for 32 bit operating system')
             print('Enter 1 to download AutoHotkey v2')
             print('Enter 2 to enter AutoHotkey v2 path')
             response = input()
@@ -59,7 +61,7 @@ def getAhkPath():
                 webbrowser.open('https://www.autohotkey.com/')
                 exit()
             elif response == '2':
-                setting['ahkpath'] = input('Please enter AutoHotkey v2 (Autohotkey64.exe) path: ').strip('"')
+                setting['ahkpath'] = input('Please enter AutoHotkey v2 path: ').strip('"')
                 break
         saveSetting()
 
