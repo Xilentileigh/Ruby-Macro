@@ -21,5 +21,5 @@ thats why i created this macro which also my first project
 
 ### LOOKING FOR PATH MAKERS
 
-1/27 item spots have paths
+5/27 item spots have paths
 

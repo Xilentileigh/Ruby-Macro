@@ -15,7 +15,7 @@ walkSend(key, state){
     Send('{' . key . ' ' . state . '}')
 }
 
-press(key, time){
+press(key, time := 50){
     walkSend(key, 'down')
     walkSleep(time)
     walkSend(key, 'up')
@@ -55,6 +55,7 @@ resetCharacter(){
     Send('{Enter}')
     Sleep(2000)
 }
+
 collectItem(){
     loop 4 {
         Send('e')
@@ -62,12 +63,23 @@ collectItem(){
     }
 }
 
+playerJump(){
+    press('Space')
+}
+
+walkJump(key, time){
+    walkSend(key, 'down')
+    walkSleep(time)
+    playerJump()
+    walkSleep(350)
+    walkSend(key, 'up')
+}
+
 fixZoom(){
     hold('i', 2000)
     hold('o', 750)
     Sleep(200)
 }
-
 
 fixCameraAngle(){
     CoordMode('Mouse', 'Client')
@@ -102,16 +114,10 @@ alignCamera(){
 }
 
 alignCharacter(){
-    alignCamera()
-    walkSend('d', 'down')
-    walkSleep(1000)
-    walkSend('w', 'down')
-    walkSleep(2250)
-    walkSend('w', 'up')
-    walkSleep(4000)
-    walkSend('s', 'down')
-    walkSleep(1500)
-    upKey()
+    press('d', 1000)
+    diagonalMovement('d', 'w', 2250)
+    press('d', 4000)
+    diagonalMovement('d', 's', 1500)
     diagonalMovement('w', 'a', 500)
     Sleep(200)
 }
@@ -122,25 +128,60 @@ goToItem(number){
     ;https://sol-rng.fandom.com/wiki/Items
     ;comment what you used to create the path (vip/non-vip)
     ;and if tested or not
-    if (number == 1){
-        ;by xilenti
+    if (number = 1){
         ;number 26 on wiki
-        ;in vip account
-        ;tested with non-vip account
-        press('a', 1000)
+        press('a', 1150)
         press('w', 250)
-        collectItem()
+    } else if (number = 2){
+        ;not on wiki
+        press('w', 1250)
+        diagonalMovement('w', 'd', 1500)
+        walkJump('d', 1450)
+    } else if (number = 3){
+        ;number 25 on wiki
+        press('d', 700)
+        walkJump('w', 650)
+        press('w', 1150)
+    } else if (number = 4){
+        ;number 22 on wiki
+        walkJump('s', 2250)
+        press('s', 2500)
+        press('d', 1350)
+        press('s', 1000)
+    } else if (number= 5){
+        ;number 13 on wiki
+        press('w', 1000)
+        walkJump('a', 250)
+        press('a', 1250)
+        walkJump('s', 250)
+        press('s', 2250)
     }
+    collectItem()
+}
+
+pathBranch(number){
+    if (number = 1){
+        ;path branch made by xilenti
+        ;all made in vip account
+        ;and all tested in non-vip account
+        goToItem(1)
+        goToItem(2)
+        goToItem(3)
+        goToItem(4)
+        goToItem(5)
+    }
+    resetCharacter()
+    alignCharacter()
 }
 
 path(){
-    goToItem(1)
-    alignCharacter()
+    pathBranch(1)
 }
 
 runPath(){
     if WinExist('Roblox') {
         WinActivate('Roblox')
+        alignCamera()
         alignCharacter()
         loop {
             path()
