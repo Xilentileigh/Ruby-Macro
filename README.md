@@ -21,8 +21,8 @@ thats why i created this macro which also my first project
 
 ### NOTE
 
-11/31 item spots have paths  
-other item spots will not have paths 
-because they are not worth to go 
-for the sake of time
+11/31 item spots have paths   
+other item spots will not have paths  
+because they are not worth to go  
+for the sake of time   
 
