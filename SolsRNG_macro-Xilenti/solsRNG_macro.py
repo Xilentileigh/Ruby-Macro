@@ -102,7 +102,7 @@ def runPath():
             exit()
 
 os.system('cls')
-print(f'current VIP setting: {'Enabled' if setting['vip'] == '1' else 'Disabled'}')
+print(f'Has VIP gamepass? {'Yes' if setting['vip'] == '1' else 'No'}')
 print('Press Shift + F1 to change VIP setting')
 print('Press F1 to start macro')
 print('Press F2 to stop macro')

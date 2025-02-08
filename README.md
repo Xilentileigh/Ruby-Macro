@@ -19,7 +19,10 @@ and the macro community fell apart
 but there are still more people that doesnt have VIP+ than people who does  
 thats why i created this macro which also my first project  
 
-### LOOKING FOR PATH MAKERS
+### NOTE
 
-5/27 item spots have paths
+11/31 item spots have paths  
+other item spots will not have paths 
+because they are not worth to go 
+for the sake of time
 
