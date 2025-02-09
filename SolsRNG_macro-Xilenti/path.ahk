@@ -139,9 +139,10 @@ alignCharacter(num){
         diagonalMovement('s', 'a', 1500)
         diagonalMovement('w', 'd', 500)
     } else if (num = 2){
-        press('w', 850)
-        diagonalMovement('w', 'd', 5000)
-        diagonalMovement('a', 's', 250)
+        diagonalMovement('w', 'd', 2500)
+        press('w', 3500)
+        diagonalMovement('w', 'd', 2500)
+        diagonalMovement('s', 'a', 250)
     } else if (num = 3){
         diagonalMovement('s', 'd', 1000)
         press('s', 2650)
@@ -194,16 +195,18 @@ goToItem(num){
         press('a', 2250)
     } else if (num = 6){
         ;number 21 on wiki
-        press('s', 2450)
-        walkJump('d', 1350)
+        press('s', 750)
+        press('d', 1850)
+        press('s', 2000)
+        walkJump('d', 0)
         press('d', 1000)
     } else if (num = 7){
         ;number 15 on wiki
         press('a', 650)
-        press('w', 1900)
+        press('w', 1850)
     } else if (num = 8){
         ;number 28 on wiki
-        walkJump('w', 0)
+        walkJump('w', 150)
         walkJump('w', 350)
         press('d', 3500)
     } else if (num = 9){
