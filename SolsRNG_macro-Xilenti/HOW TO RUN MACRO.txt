@@ -9,4 +9,9 @@ Double click or run "solsRNG_macro.py"
 you have to open "solsRNG_macro.py" with python
 or else it will not run
 
+If you cant run the python file  
+you can run "path.ahk" directly  
+(F2 to stop the macro)   
+go into "config.ini" to change settings  
+
 Please do NOT edit or modify config.ini
