@@ -2,10 +2,10 @@
 #SingleInstance Force
 
 CONFIG_PATH := A_ScriptDir . '\config.ini'
-defaultSetting := 0
-settingVIP := Integer(IniRead(CONFIG_PATH, 'setting', 'vip', defaultSetting))
+settingVIP := Integer(IniRead(CONFIG_PATH, 'setting', 'vip'))
 VIP_WALK_SPEED := 1.25
 possibleKeys := ['w', 'a', 's', 'd', 'i', 'o']
+cameraSensitivity := Float(IniRead(CONFIG_PATH, 'setting', 'camera_sensitivity'))
 
 walkSend(key, state){
     Send('{' . key . ' ' . state . '}')
@@ -53,10 +53,8 @@ resetCharacter(){
 }
 
 collectItem(){
-    loop 4 {
-        Send('e')
-        Sleep(500)
-    }
+    Send('e')
+    Sleep(200)
 }
 
 playerJump(){
@@ -82,7 +80,7 @@ fixCameraAngle(){
     SendMode('Event')
     MouseMove(A_ScreenWidth / 2, A_ScreenHeight * 0.25, 5)
     walkSend('RButton', 'down')
-    MouseMove(A_ScreenWidth / 2, (A_ScreenHeight*0.25)+25, 50)
+    MouseMove(A_ScreenWidth / 2, (A_ScreenHeight*0.25)+(5/cameraSensitivity), 100*cameraSensitivity)
     walkSend('RButton', 'up')
     Sleep(200)
 }
@@ -170,24 +168,24 @@ goToItem(index){
         ;number 21 on wiki
         press('d', 750)
         press('w', 1850)
+    } else if (index = 7){
+        ;number 15 on wiki
         press('d', 2000)
         walkJump('w', 0)
         press('w', 1000)
-    } else if (index = 7){
-        ;number 15 on wiki
         press('s', 650)
-        press('a', 1850)
+        press('a', 2000)
     } else if (index = 8){
         ;number 28 on wiki
-        walkJump('a', 150)
-        walkJump('a', 350)
+        walkJump('a', 0)
+        walkJump('a', 250)
         press('w', 3500)
     } else if (index = 9){
         ;number 31 on wiki
         press('a', 1500)
     } else if (index = 10){
         ;number 16 on wiki
-        walkJump('s', 200)
+        walkJump('s', 250)
         press('a', 1650)
     } else if (index = 11){
         ;number 17 on wiki
