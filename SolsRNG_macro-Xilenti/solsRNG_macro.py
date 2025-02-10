@@ -31,12 +31,11 @@ def saveSetting(setting=None):
         config.write(file)
 
 def loadSetting():
-    try:
-        config = configparser.ConfigParser()
-        config.read(CONFIG_PATH)
-        setting = {section: dict(config[section]) for section in config.sections()}
-        setting = setting['setting']
-    except:
+    config = configparser.ConfigParser()
+    config.read(CONFIG_PATH)
+    setting = {section: dict(config[section]) for section in config.sections()}
+    setting = setting['setting']
+    if any(key not in setting for key in defaultSetting):
         setting = defaultSetting
         saveSetting(setting)
     return setting
@@ -44,9 +43,7 @@ def loadSetting():
 setting = loadSetting()
 
 def getAhkPath():
-    if os.path.exists(setting['ahkpath']):
-        return
-    else:
+    if not os.path.exists(setting['ahkpath']):
         while True:
             os.system('cls')
             print('AutoHotkey v2 path not found')
@@ -65,36 +62,23 @@ def getAhkPath():
                 break
         saveSetting()
 
-getAhkPath()
-
 def getVIP():
     if not setting['vip'] in ['0', '1']:
         setting['vip'] = defaultSetting['vip']
         saveSetting()
 
+def checkSetting():
+    if not setting['insetting'] in ['0', '1']:
+        setting['insetting'] = defaultSetting['insetting']
+        saveSetting()
+
+getAhkPath()
+getVIP()
+checkSetting()
+
 def restart():
     python = sys.executable
     os.execv(python, [python] + sys.argv)
-            
-getVIP()
-
-def runPath():
-    if gw.getWindowsWithTitle('path.ahk'):
-        return
-    try:
-        subprocess.run([setting['ahkpath'], COLLECT_ITEM_PATH])
-    except Exception as e:
-        print('Autohotkey v2 path might not be of correct directory')
-        response = input('do you want to re-enter the autohotkey v2 path? (y/n): ')
-        if response == 'y':
-            setting['ahkpath'] = ''
-            saveSetting()
-            restart()
-        else:
-            print(e)
-            print('The program will now exit')
-            time.sleep(5)
-            exit()
 
 def goToSetting():
     setting['insetting'] = '1' if setting['insetting'] == '0' else '0'
@@ -110,6 +94,24 @@ def configureSetting():
             setting['vip'] = '1' if setting['vip'] == '0' else '0'
     saveSetting()
     restart()
+
+def runPath():
+    if gw.getWindowsWithTitle('path.ahk'):
+        return
+    try:
+        subprocess.run([setting['ahkpath'], COLLECT_ITEM_PATH])
+    except Exception as e:
+        print('Autohotkey v2 path might not be of correct directory')
+        response = input('do you want to re-enter the autohotkey v2 path? (y/n): ')
+        if response == 'y':
+            setting['ahkpath'] = ''
+            saveSetting()
+            restart()
+        else:
+            print(e)
+            print('The program will now  in 5 seconds')
+            time.sleep(5)
+            exit()
 
 if setting['insetting'] == '0':
     os.system('cls')
