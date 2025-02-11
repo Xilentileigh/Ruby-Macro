@@ -46,10 +46,8 @@ def getAhkPath():
     if not os.path.exists(setting['ahk_path']):
         while True:
             os.system('cls')
-            print('AutoHotkey v2 not found')
-            print('Please install AutoHotkey v2')
-            print('or enter AutoHotkey v2 path')
-            print('if you had already installed it')
+            print('AutoHotkey v2 not found. Please install AutoHotkey v2')
+            print('or enter AutoHotkey v2 path. if you had already installed it')
             print('"AutoHotkey64.exe" for 64 bit operating system')
             print('and "AutoHotkey32.exe" for 32 bit operating system')
             print('Enter 1 to download AutoHotkey v2')
@@ -69,7 +67,7 @@ def getVIP():
         saveSetting()
 
 def getCameraSensitivity():
-    if not 0 < setting['camera_sensitivity'] <= 1:
+    if not 0 < float(setting['camera_sensitivity']) <= 4:
         setting['camera_sensitivity'] = defaultSetting['camera_sensitivity']
         saveSetting()
 
@@ -80,6 +78,7 @@ def checkSetting():
 
 getAhkPath()
 getVIP()
+getCameraSensitivity()
 checkSetting()
 
 def restart():

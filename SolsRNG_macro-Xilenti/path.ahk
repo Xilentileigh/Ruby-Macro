@@ -80,7 +80,7 @@ fixCameraAngle(){
     SendMode('Event')
     MouseMove(A_ScreenWidth / 2, A_ScreenHeight * 0.25, 5)
     walkSend('RButton', 'down')
-    MouseMove(A_ScreenWidth / 2, (A_ScreenHeight*0.25)+(5/cameraSensitivity), 100*cameraSensitivity)
+    MouseMove(A_ScreenWidth / 2, (A_ScreenHeight*0.25)+(5/(cameraSensitivity/4)), 100*(cameraSensitivity/4))
     walkSend('RButton', 'up')
     Sleep(200)
 }
@@ -127,7 +127,7 @@ alignCharacter(index){
         walkJump('s', 0)
         press('s', 6500)
         press('a', 1650)
-        press('s', 2900)
+        press('s', 2850)
         press('d', 500)
         press('s', 1000)
         diagonalMovement('s', 'a', 2500)
@@ -210,6 +210,7 @@ goToItem(index){
         press('w', 500)
         press('d', 1500)
     }
+    Sleep(200)
     collectItem()
 }
 
