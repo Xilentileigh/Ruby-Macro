@@ -6,6 +6,9 @@ settingVIP := Integer(IniRead(CONFIG_PATH, 'setting', 'vip'))
 VIP_WALK_SPEED := 1.25
 possibleKeys := ['w', 'a', 's', 'd', 'i', 'o']
 cameraSensitivity := Float(IniRead(CONFIG_PATH, 'setting', 'camera_sensitivity'))
+pathSegment1 := Integer(IniRead(CONFIG_PATH, 'setting', 'path_segment1'))
+pathSegment2 := Integer(IniRead(CONFIG_PATH, 'setting', 'path_segment2'))
+pathSegment3 := Integer(IniRead(CONFIG_PATH, 'setting', 'path_segment3'))
 
 walkSend(key, state){
     Send('{' . key . ' ' . state . '}')
@@ -214,7 +217,7 @@ goToItem(index){
     collectItem()
 }
 
-pathBranch(index){
+pathSegment(index){
     if (index = 1){
         ;all made in vip account
         ;and all tested in non-vip account
@@ -244,20 +247,27 @@ pathBranch(index){
 }
 
 path(){
-    pathBranch(1)
-    alignCharacter(2)
-    pathBranch(2)
-    alignCharacter(3)
-    alignCharacter(4)
-    pathBranch(3)
-    alignCharacter(1)
+    if (pathSegment1){
+        alignCharacter(1)
+        pathSegment(1)
+
+    }
+    if (pathSegment2){
+        alignCharacter(2)
+        pathSegment(2)
+
+    }
+    if (pathSegment3){
+        alignCharacter(3)
+        alignCharacter(4)
+        pathSegment(3)
+    }
 }
 
 runPath(){
     if WinExist('Roblox'){
         WinActivate('Roblox')
         alignCamera()
-        alignCharacter(1)
         loop {
             path()
         } 

@@ -22,7 +22,15 @@ import keyboard
 currentDirectory = os.path.dirname(os.path.abspath(__file__))
 COLLECT_ITEM_PATH = f'{currentDirectory}\\path.ahk'
 CONFIG_PATH = f'{currentDirectory}\\config.ini'
-defaultSetting = {'ahk_path': 'C:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe', 'vip': '0', 'camera_sensitivity': '1.0', 'in_setting': '0'}
+defaultSetting = {
+    'ahk_path': 'C:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe',
+    'vip': '0',
+    'path_segment1': '1',
+    'path_segment2': '1',
+    'path_segment3': '1',
+    'camera_sensitivity': '1.0',
+    'in_setting': '0',
+}
 
 def saveSetting(setting=None):
     config = configparser.ConfigParser()
@@ -31,6 +39,9 @@ def saveSetting(setting=None):
         config.write(file)
 
 def loadSetting():
+    if not os.path.exists(CONFIG_PATH):
+        setting = defaultSetting
+        saveSetting(setting)
     config = configparser.ConfigParser()
     config.read(CONFIG_PATH)
     setting = {section: dict(config[section]) for section in config.sections()}
@@ -42,12 +53,12 @@ def loadSetting():
 
 setting = loadSetting()
 
-def getAhkPath():
+def checkSetting():
     if not os.path.exists(setting['ahk_path']):
         while True:
             os.system('cls')
             print('AutoHotkey v2 not found. Please install AutoHotkey v2')
-            print('or enter AutoHotkey v2 path. if you had already installed it')
+            print('or enter AutoHotkey v2 path, if you had already installed it')
             print('"AutoHotkey64.exe" for 64 bit operating system')
             print('and "AutoHotkey32.exe" for 32 bit operating system')
             print('Enter 1 to download AutoHotkey v2')
@@ -60,25 +71,25 @@ def getAhkPath():
                 setting['ahk_path'] = input('Please enter AutoHotkey v2 path: ').strip('"')
                 break
         saveSetting()
-
-def getVIP():
     if not setting['vip'] in ['0', '1']:
         setting['vip'] = defaultSetting['vip']
         saveSetting()
-
-def getCameraSensitivity():
     if not 0 < float(setting['camera_sensitivity']) <= 4:
         setting['camera_sensitivity'] = defaultSetting['camera_sensitivity']
         saveSetting()
-
-def checkSetting():
     if not setting['in_setting'] in ['0', '1']:
         setting['in_setting'] = defaultSetting['in_setting']
         saveSetting()
-
-getAhkPath()
-getVIP()
-getCameraSensitivity()
+    if not setting['path_segment1'] in ['1', '0']:
+        setting['path_segment1'] = defaultSetting['path_segment1']
+        saveSetting()
+    if not setting['path_segment2'] in ['1', '0']:
+        setting['path_segment2'] = defaultSetting['path_segment2']
+        saveSetting()
+    if not setting['path_segment3'] in ['1', '0']:
+        setting['path_segment3'] = defaultSetting['path_segment3']
+        saveSetting()
+        
 checkSetting()
 
 def restart():
@@ -97,7 +108,13 @@ def configureSetting():
             setting['ahk_path'] = input('Please enter AutoHotkey v2 path: ').strip('"')
         elif response == '2':
             setting['vip'] = '1' if setting['vip'] == '0' else '0'
-        if response == '3':
+        elif response == '3':
+            setting['path_segment1'] = '1' if setting['path_segment1'] == '0' else '0'
+        elif response == '4':
+            setting['path_segment2'] = '1' if setting['path_segment2'] == '0' else '0'
+        elif response == '5':
+            setting['path_segment3'] = '1' if setting['path_segment3'] == '0' else '0'
+        elif response == '6':
             setting['camera_sensitivity'] = float(input('Please enter you camera sensitivity: '))
     saveSetting()
     restart()
@@ -116,7 +133,7 @@ def runPath():
             restart()
         else:
             print(e)
-            print('The program will now  in 5 seconds')
+            print('The program will now exit in 5 seconds')
             time.sleep(5)
             exit()
 
