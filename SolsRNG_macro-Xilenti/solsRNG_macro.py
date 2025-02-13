@@ -74,7 +74,7 @@ def checkSetting():
     if not setting['vip'] in ['0', '1']:
         setting['vip'] = defaultSetting['vip']
         saveSetting()
-    if not 0 < float(setting['camera_sensitivity']) <= 4:
+    if not 0 <= float(setting['camera_sensitivity']) <= 100:
         setting['camera_sensitivity'] = defaultSetting['camera_sensitivity']
         saveSetting()
     if not setting['in_setting'] in ['0', '1']:
@@ -139,18 +139,18 @@ def runPath():
 
 if setting['in_setting'] == '0':
     os.system('cls')
-    print('Press Shift + F1 to go into settings')
+    print('Press Alt + s to go into settings')
     print('Press F1 to start macro')
     print('Press F2 to stop macro')
     print('Press F3 to exit macro')
 else:
     os.system('cls')
     print('Press Ctrl+Alt+s to change setting')
-    print('Press Shift + F1 again to exit')
+    print('Press Alt + s again to exit')
     for index, key in enumerate(setting, start=1):
         print(f'{index}. {key}: {setting[key]}')
 
-keyboard.add_hotkey('shift+F1', goToSetting)
+keyboard.add_hotkey('alt+s', goToSetting)
 keyboard.add_hotkey('ctrl+alt+s', configureSetting)
 keyboard.add_hotkey('F1', runPath)
 keyboard.wait('F3')

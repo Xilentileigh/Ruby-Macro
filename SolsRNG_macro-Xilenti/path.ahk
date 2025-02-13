@@ -2,9 +2,9 @@
 #SingleInstance Force
 
 CONFIG_PATH := A_ScriptDir . '\config.ini'
-settingVIP := Integer(IniRead(CONFIG_PATH, 'setting', 'vip'))
 VIP_WALK_SPEED := 1.25
 possibleKeys := ['w', 'a', 's', 'd', 'i', 'o']
+settingVIP := Integer(IniRead(CONFIG_PATH, 'setting', 'vip'))
 cameraSensitivity := Float(IniRead(CONFIG_PATH, 'setting', 'camera_sensitivity'))
 pathSegment1 := Integer(IniRead(CONFIG_PATH, 'setting', 'path_segment1'))
 pathSegment2 := Integer(IniRead(CONFIG_PATH, 'setting', 'path_segment2'))
@@ -79,13 +79,39 @@ fixZoom(){
 }
 
 fixCameraAngle(){
+    Send('{Escape}')
+    Sleep(500)
+    Send('{Tab}')
+    Sleep(500)
+    Send('{Up}')
+    Sleep(500)
+    Send('{Right}')
+    Sleep(200)
+    loop 10 {
+        Send('{Left}')
+        Sleep(200)
+    }
+    Send('{Escape}')
+    Sleep(200)
     CoordMode('Mouse', 'Client')
     SendMode('Event')
     MouseMove(A_ScreenWidth / 2, A_ScreenHeight * 0.25, 5)
-    walkSend('RButton', 'down')
-    MouseMove(A_ScreenWidth / 2, (A_ScreenHeight*0.25)+(5/(cameraSensitivity/4)), 100*(cameraSensitivity/4))
-    walkSend('RButton', 'up')
+    Send('{RButton down}')
+    MouseMove(A_ScreenWidth / 2, (A_ScreenHeight*0.25)+25, 50)
+    Send('{RButton up}')
     Sleep(200)
+    Send('{Escape}')
+    Sleep(500)
+    Send('{Tab}')
+    Sleep(500)
+    MouseClick('Left', 1300, 325, 1, 5)
+    Sleep(500)
+    Send(cameraSensitivity)
+    Sleep(500)
+    Send('{Enter}')
+    Sleep(500)
+    Send('{Escape}')
+    Sleep(1000)
 }
 
 alignCamera(){
@@ -107,7 +133,9 @@ alignCamera(){
     Send('\')
     Sleep(200)
     fixZoom()
-    fixCameraAngle()
+    if (cameraSensitivity > 0){
+        fixCameraAngle()
+    } 
 }
 
 alignCharacter(index){
