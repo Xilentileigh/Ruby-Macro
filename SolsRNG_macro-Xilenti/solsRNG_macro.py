@@ -28,7 +28,8 @@ defaultSetting = {
     'path_segment1': '1',
     'path_segment2': '1',
     'path_segment3': '1',
-    'camera_sensitivity': '1.0',
+    'path_segment4': '1',
+    'camera_sensitivity': '0',
     'in_setting': '0',
 }
 
@@ -70,25 +71,21 @@ def checkSetting():
             elif response == '2':
                 setting['ahk_path'] = input('Please enter AutoHotkey v2 path: ').strip('"')
                 break
-        saveSetting()
     if not setting['vip'] in ['0', '1']:
         setting['vip'] = defaultSetting['vip']
-        saveSetting()
     if not 0 <= float(setting['camera_sensitivity']) <= 100:
         setting['camera_sensitivity'] = defaultSetting['camera_sensitivity']
-        saveSetting()
     if not setting['in_setting'] in ['0', '1']:
         setting['in_setting'] = defaultSetting['in_setting']
-        saveSetting()
     if not setting['path_segment1'] in ['1', '0']:
         setting['path_segment1'] = defaultSetting['path_segment1']
-        saveSetting()
     if not setting['path_segment2'] in ['1', '0']:
         setting['path_segment2'] = defaultSetting['path_segment2']
-        saveSetting()
     if not setting['path_segment3'] in ['1', '0']:
         setting['path_segment3'] = defaultSetting['path_segment3']
-        saveSetting()
+    if not setting['path_segment4'] in ['1', '0']:
+        setting['path_segment4'] = defaultSetting['path_segment4']
+    saveSetting()
         
 checkSetting()
 
@@ -115,6 +112,8 @@ def configureSetting():
         elif response == '5':
             setting['path_segment3'] = '1' if setting['path_segment3'] == '0' else '0'
         elif response == '6':
+            setting['path_segment4'] = '1' if setting['path_segment4'] == '0' else '0'
+        elif response == '7':
             setting['camera_sensitivity'] = float(input('Please enter you camera sensitivity: '))
     saveSetting()
     restart()

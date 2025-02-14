@@ -9,6 +9,7 @@ cameraSensitivity := Float(IniRead(CONFIG_PATH, 'setting', 'camera_sensitivity')
 pathSegment1 := Integer(IniRead(CONFIG_PATH, 'setting', 'path_segment1'))
 pathSegment2 := Integer(IniRead(CONFIG_PATH, 'setting', 'path_segment2'))
 pathSegment3 := Integer(IniRead(CONFIG_PATH, 'setting', 'path_segment3'))
+pathSegment4 := 0
 
 walkSend(key, state){
     Send('{' . key . ' ' . state . '}')
@@ -163,6 +164,10 @@ alignCharacter(index){
         press('s', 1000)
         diagonalMovement('s', 'a', 2500)
         diagonalMovement('w', 'd', 100)
+    } else if (index = 5){
+        press('d', 2000)
+        diagonalMovement('s', 'a', 2500)
+        diagonalMovement('w', 'd', 100)
     }
     Sleep(200)
 }
@@ -270,25 +275,46 @@ pathSegment(index){
         goToItem(13)
         goToItem(14)
         goToItem(15)
+    } else if (index = 4){
+        ;all made in vip account
+        goToItem(16)
+        goToItem(17)
+        goToItem(18)
+        goToItem(19)
+        goToItem(20)
+        goToItem(21)
+        goToItem(22)
     }
-    resetCharacter()
 }
 
 path(){
     if (pathSegment1){
         alignCharacter(1)
         pathSegment(1)
-
+        resetCharacter()
     }
     if (pathSegment2){
         alignCharacter(2)
         pathSegment(2)
-
+        resetCharacter()
     }
     if (pathSegment3){
         alignCharacter(3)
         alignCharacter(4)
         pathSegment(3)
+        if (!pathSegment4){
+            resetCharacter()
+        }
+    }
+    if (pathSegment4){
+        if (!pathSegment3){
+            alignCharacter(5)
+        } else {
+            alignCharacter(3)
+            alignCharacter(4)
+        }
+        pathSegment(4)
+        resetCharacter()
     }
 }
 
