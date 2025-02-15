@@ -2,14 +2,19 @@
 #SingleInstance Force
 
 CONFIG_PATH := A_ScriptDir . '\config.ini'
-VIP_WALK_SPEED := 1.25
-possibleKeys := ['w', 'a', 's', 'd', 'i', 'o']
+if (!FileExist(CONFIG_PATH)){
+    MsgBox('config.ini not found`nplease read "HOW TO RUN MACRO.txt"`nand run the python file instead')
+    ExitApp()
+}
 settingVIP := Integer(IniRead(CONFIG_PATH, 'setting', 'vip'))
 cameraSensitivity := Float(IniRead(CONFIG_PATH, 'setting', 'camera_sensitivity'))
+escapeMenu := Integer(IniRead(CONFIG_PATH, 'setting', 'escape_menu'))
 pathSegment1 := Integer(IniRead(CONFIG_PATH, 'setting', 'path_segment1'))
 pathSegment2 := Integer(IniRead(CONFIG_PATH, 'setting', 'path_segment2'))
 pathSegment3 := Integer(IniRead(CONFIG_PATH, 'setting', 'path_segment3'))
 pathSegment4 := 0
+VIP_WALK_SPEED := 1.25
+possibleKeys := ['w', 'a', 's', 'd', 'i', 'o']
 
 walkSend(key, state){
     Send('{' . key . ' ' . state . '}')
@@ -65,54 +70,102 @@ playerJump(){
     press('Space', 50)
 }
 
-walkJump(key, time){
+walkJump(key, time, airTime := 350){
     walkSend(key, 'down')
     walkSleep(time)
     playerJump()
-    walkSleep(350)
+    walkSleep(airTime)
     walkSend(key, 'up')
+}
+
+diagonalJump(key1, key2, time, airTime := 350){
+    walkSend(key1, 'down')
+    walkSend(key2, 'down')
+    walkSleep(time)
+    playerJump()
+    walkSleep(airTime)
+    walkSend(key1, 'up')
+    walkSend(key2, 'up')
 }
 
 fixZoom(){
     hold('i', 2000)
-    hold('o', 750)
+    hold('o', 1000)
     Sleep(200)
 }
 
-fixCameraAngle(){
-    Send('{Escape}')
-    Sleep(500)
-    Send('{Tab}')
-    Sleep(500)
-    Send('{Up}')
-    Sleep(500)
-    Send('{Right}')
-    Sleep(200)
-    loop 10 {
-        Send('{Left}')
+fixCameraAngle(index){
+    if (index = 1){
+        Send('{Escape}')
+        Sleep(500)
+        Send('{Tab}')
+        Sleep(500)
+        loop 7 {
+            Send('{Down}')
+            Sleep(200)
+        }
+        Send('{Right}')
         Sleep(200)
+        loop 10 {
+            Send('{Left}')
+            Sleep(200)
+        }
+        Send('{Escape}')
+        Sleep(200)
+        CoordMode('Mouse', 'Client')
+        SendMode('Event')
+        MouseMove(A_ScreenWidth / 2, A_ScreenHeight * 0.25, 5)
+        Send('{RButton down}')
+        MouseMove(A_ScreenWidth / 2, (A_ScreenHeight*0.25)+25, 50)
+        Send('{RButton up}')
+        Sleep(200)
+        Send('{Escape}')
+        Sleep(500)
+        Send('{Tab}')
+        Sleep(500)
+        MouseClick('Left', 1300, 650, 1, 5)
+        Sleep(500)
+        Send(cameraSensitivity)
+        Sleep(500)
+        Send('{Enter}')
+        Sleep(500)
+        Send('{Escape}')
+        Sleep(1000)
+    } else if (index = 2){
+        Send('{Escape}')
+        Sleep(500)
+        Send('{Tab}')
+        Sleep(500)
+        Send('{Up}')
+        Sleep(500)
+        Send('{Right}')
+        Sleep(200)
+        loop 10 {
+            Send('{Left}')
+            Sleep(200)
+        }
+        Send('{Escape}')
+        Sleep(200)
+        CoordMode('Mouse', 'Client')
+        SendMode('Event')
+        MouseMove(A_ScreenWidth / 2, A_ScreenHeight * 0.25, 5)
+        Send('{RButton down}')
+        MouseMove(A_ScreenWidth / 2, (A_ScreenHeight*0.25)+25, 50)
+        Send('{RButton up}')
+        Sleep(200)
+        Send('{Escape}')
+        Sleep(500)
+        Send('{Tab}')
+        Sleep(500)
+        MouseClick('Left', 1300, 325, 1, 5)
+        Sleep(500)
+        Send(cameraSensitivity)
+        Sleep(500)
+        Send('{Enter}')
+        Sleep(500)
+        Send('{Escape}')
+        Sleep(1000)
     }
-    Send('{Escape}')
-    Sleep(200)
-    CoordMode('Mouse', 'Client')
-    SendMode('Event')
-    MouseMove(A_ScreenWidth / 2, A_ScreenHeight * 0.25, 5)
-    Send('{RButton down}')
-    MouseMove(A_ScreenWidth / 2, (A_ScreenHeight*0.25)+25, 50)
-    Send('{RButton up}')
-    Sleep(200)
-    Send('{Escape}')
-    Sleep(500)
-    Send('{Tab}')
-    Sleep(500)
-    MouseClick('Left', 1300, 325, 1, 5)
-    Sleep(500)
-    Send(cameraSensitivity)
-    Sleep(500)
-    Send('{Enter}')
-    Sleep(500)
-    Send('{Escape}')
-    Sleep(1000)
 }
 
 alignCamera(){
@@ -135,7 +188,7 @@ alignCamera(){
     Sleep(200)
     fixZoom()
     if (cameraSensitivity > 0){
-        fixCameraAngle()
+        fixCameraAngle(escapeMenu)
     } 
 }
 
@@ -165,9 +218,30 @@ alignCharacter(index){
         diagonalMovement('s', 'a', 2500)
         diagonalMovement('w', 'd', 100)
     } else if (index = 5){
-        press('d', 2000)
+        press('d', 1500)
         diagonalMovement('s', 'a', 2500)
-        diagonalMovement('w', 'd', 100)
+        diagonalMovement('w', 'd', 250)
+    } else if (index = 6){
+        diagonalMovement('w', 'd', 1750)
+        walkJump('s', 250)
+        walkJump('s', 0)
+        walkJump('s', 500)
+        press('s', 1250)
+        walkJump('a', 1500)
+        diagonalMovement('a', 'w', 2000)
+    } else if (index = 7){
+        walkJump('w', 0, 50)
+        walkSleep(500)
+        walkJump('a', 0)
+        walkSleep(200)
+        walkJump('w', 0)
+        walkSleep(200)
+        walkJump('a', 0)
+        walkSleep(200)
+        press('s', 1750)
+        walkJump('a', 0)
+        press('a', 1000)
+        diagonalMovement('a', 's', 1000)
     }
     Sleep(200)
 }
@@ -245,6 +319,32 @@ goToItem(index){
         press('d', 2000)
         press('w', 500)
         press('d', 1500)
+    } else if (index = 16){
+        ;number 8 on wiki
+    } else if (index = 17){
+        ;number 7 on wiki
+        diagonalMovement('w', 'd', 150)
+        press('w', 500)
+        press('a', 500)
+        press('w', 1500)
+    } else if (index = 18){
+        ; number 3 on wiki
+        press('a', 250)
+        walkJump('s', 250)
+        walkSleep(200)
+        walkJump('a', 0)
+        walkSleep(200)
+        walkJump('a', 0)
+        walkSleep(200)
+        press('a', 1150)
+        press('w', 150)
+        walkJump('a', 750)
+        walkSleep(200)
+        press('w', 50)
+        walkJump('a', 0)
+        walkSleep(200)
+        press('s', 150)
+        press('a', 250)
     }
     Sleep(200)
     collectItem()
@@ -308,27 +408,28 @@ path(){
     }
     if (pathSegment4){
         if (!pathSegment3){
-            alignCharacter(5)
-        } else {
             alignCharacter(3)
             alignCharacter(4)
+        } else {
+            alignCharacter(5)
         }
+        alignCharacter(6)
+        alignCharacter(7)
         pathSegment(4)
         resetCharacter()
     }
 }
 
 runPath(){
-    if WinExist('Roblox'){
-        WinActivate('Roblox')
-        alignCamera()
-        loop {
-            path()
-        } 
-    } else {
+    if (!WinExist('Roblox')){
         MsgBox('Roblox not found')
-        ExitApp()    
+        ExitApp()
     }
+    WinActivate('Roblox')
+    alignCamera()
+    loop {
+        path()
+    } 
 }
 
 upKey(){

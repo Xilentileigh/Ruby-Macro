@@ -30,6 +30,7 @@ defaultSetting = {
     'path_segment3': '1',
     'path_segment4': '1',
     'camera_sensitivity': '0',
+    'escape_menu': '1',
     'in_setting': '0',
 }
 
@@ -85,6 +86,8 @@ def checkSetting():
         setting['path_segment3'] = defaultSetting['path_segment3']
     if not setting['path_segment4'] in ['1', '0']:
         setting['path_segment4'] = defaultSetting['path_segment4']
+    if not setting['escape_menu'] in ['1', '2']:
+        setting['escape_menu'] = defaultSetting['escape_menu']
     saveSetting()
         
 checkSetting()
@@ -100,6 +103,7 @@ def goToSetting():
 
 def configureSetting():
     if setting['in_setting'] == '1':
+        sys.stdin.flush()
         response = input('Enter which setting you want to change: ')
         if response == '1':
             setting['ahk_path'] = input('Please enter AutoHotkey v2 path: ').strip('"')
@@ -114,7 +118,9 @@ def configureSetting():
         elif response == '6':
             setting['path_segment4'] = '1' if setting['path_segment4'] == '0' else '0'
         elif response == '7':
-            setting['camera_sensitivity'] = float(input('Please enter you camera sensitivity: '))
+            setting['camera_sensitivity'] = float(input('Please enter your roblox sensitivity: '))
+        elif response == '8':
+            setting['escape_menu'] = '1' if setting['escape_menu'] == '2' else '2'
     saveSetting()
     restart()
 
