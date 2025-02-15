@@ -1,10 +1,12 @@
+Extract this if you have not already
+
 Make sure that you have installed python
 which you can download here:
 https://www.python.org/downloads/
 and enabled PATH if youre on windows
 
 Next make sure that you have installed AutoHotkey V2
-you can download it here: https://www.autohotkey.com/
+which you can download here: https://www.autohotkey.com/
 make sure you download v2 and not v1.1
 
 Double click or run "solsRNG_macro.py"
