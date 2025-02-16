@@ -9,7 +9,7 @@ escapeMenu := Integer(IniRead(configPath, 'setting', 'escape_menu'))
 pathSegment1 := Integer(IniRead(configPath, 'setting', 'path_segment1'))
 pathSegment2 := Integer(IniRead(configPath, 'setting', 'path_segment2'))
 pathSegment3 := Integer(IniRead(configPath, 'setting', 'path_segment3'))
-pathSegment4 := Integer(IniRead(configPath, 'setting', 'path_segment4'))
+pathSegment4 := 0
 VIP_WALK_SPEED := 1.25
 possibleKeys := ['w', 'a', 's', 'd', 'i', 'o']
 
