@@ -1,23 +1,59 @@
 ﻿#Requires AutoHotkey v2.0
 #SingleInstance Force
 
-CONFIG_PATH := A_ScriptDir . '\config.ini'
-if (!FileExist(CONFIG_PATH)){
-    MsgBox('config.ini not found`nplease read "HOW TO RUN MACRO.txt"`nand run the python file instead')
-    ExitApp()
-}
-settingVIP := Integer(IniRead(CONFIG_PATH, 'setting', 'vip'))
-cameraSensitivity := Float(IniRead(CONFIG_PATH, 'setting', 'camera_sensitivity'))
-escapeMenu := Integer(IniRead(CONFIG_PATH, 'setting', 'escape_menu'))
-pathSegment1 := Integer(IniRead(CONFIG_PATH, 'setting', 'path_segment1'))
-pathSegment2 := Integer(IniRead(CONFIG_PATH, 'setting', 'path_segment2'))
-pathSegment3 := Integer(IniRead(CONFIG_PATH, 'setting', 'path_segment3'))
-pathSegment4 := 0
+macroPath := A_ScriptDir '\solsRNG_macro.py'
+configPath:= A_ScriptDir '\config.ini'
+settingVIP := Integer(IniRead(configPath, 'setting', 'vip'))
+cameraSensitivity := Float(IniRead(configPath, 'setting', 'camera_sensitivity'))
+escapeMenu := Integer(IniRead(configPath, 'setting', 'escape_menu'))
+pathSegment1 := Integer(IniRead(configPath, 'setting', 'path_segment1'))
+pathSegment2 := Integer(IniRead(configPath, 'setting', 'path_segment2'))
+pathSegment3 := Integer(IniRead(configPath, 'setting', 'path_segment3'))
+pathSegment4 := Integer(IniRead(configPath, 'setting', 'path_segment4'))
 VIP_WALK_SPEED := 1.25
 possibleKeys := ['w', 'a', 's', 'd', 'i', 'o']
 
+if (A_Args.Length = 0){
+    try {
+        Run('python "' macroPath '"')
+        ExitApp()
+    } catch as e {
+        response1 := MsgBox('Python not found`n do you want to install python?', , 'YesNo')
+        if (response1 = 'No'){
+            MsgBox(e.Message)
+            ExitApp()
+        }
+        response2 := MsgBox('after downloading the python installer`nrun it and please enable "Add Python to PATH"`nand click "Install Now. Press Ok to continue"', , 'OKCancel')
+        if (response2 = 'Cancel'){
+            ExitApp()
+        }
+        Run('https://www.python.org/downloads/')
+        ExitApp()
+    }
+}
+
+runPath()
+
 walkSend(key, state){
     Send('{' . key . ' ' . state . '}')
+}
+
+getWalkSleep(time){
+    global VIP_WALK_SPEED
+    if (!settingVIP) {
+        time *= VIP_WALK_SPEED
+    }
+    return time
+}
+
+walkSleep(time){
+    Sleep(getWalkSleep(time))
+}
+
+hold(key, time){
+    walkSend(key, 'down')
+    Sleep(time)
+    walkSend(key, 'up')
 }
 
 press(key, time){
@@ -34,38 +70,6 @@ diagonalMovement(key1, key2, time){
     walkSend(key2, 'up')
 }
 
-hold(key, time){
-    walkSend(key, 'down')
-    Sleep(time)
-    walkSend(key, 'up')
-}
-
-getWalkSleep(time){
-    global VIP_WALK_SPEED
-    if (!settingVIP) {
-        time *= VIP_WALK_SPEED
-    }
-    return time
-}
-
-walkSleep(time){
-    Sleep(getWalkSleep(time))
-}
-
-resetCharacter(){
-    Send('{Escape}')
-    Sleep(500)
-    Send('r')
-    Sleep(500)
-    Send('{Enter}')
-    Sleep(2000)
-}
-
-collectItem(){
-    Send('e')
-    Sleep(200)
-}
-
 playerJump(){
     press('Space', 50)
 }
@@ -76,6 +80,7 @@ walkJump(key, time, airTime := 350){
     playerJump()
     walkSleep(airTime)
     walkSend(key, 'up')
+    walkSleep(500 - airTime)
 }
 
 diagonalJump(key1, key2, time, airTime := 350){
@@ -86,6 +91,21 @@ diagonalJump(key1, key2, time, airTime := 350){
     walkSleep(airTime)
     walkSend(key1, 'up')
     walkSend(key2, 'up')
+    walkSleep(500 - airTime)
+}
+
+collectItem(){
+    Send('e')
+    Sleep(200)
+}
+
+resetCharacter(){
+    Send('{Escape}')
+    Sleep(500)
+    Send('r')
+    Sleep(500)
+    Send('{Enter}')
+    Sleep(2000)
 }
 
 fixZoom(){
@@ -228,17 +248,13 @@ alignCharacter(index){
         walkJump('s', 500)
         press('s', 1250)
         walkJump('a', 1500)
-        diagonalMovement('a', 'w', 2000)
+        diagonalMovement('a', 'w', 1500)
     } else if (index = 7){
         walkJump('w', 0, 50)
-        walkSleep(500)
         walkJump('a', 0)
-        walkSleep(200)
         walkJump('w', 0)
-        walkSleep(200)
         walkJump('a', 0)
-        walkSleep(200)
-        press('s', 1750)
+        press('s', 1850)
         walkJump('a', 0)
         press('a', 1000)
         diagonalMovement('a', 's', 1000)
@@ -331,20 +347,19 @@ goToItem(index){
         ; number 3 on wiki
         press('a', 250)
         walkJump('s', 250)
-        walkSleep(200)
         walkJump('a', 0)
-        walkSleep(200)
         walkJump('a', 0)
-        walkSleep(200)
         press('a', 1150)
         press('w', 150)
         walkJump('a', 750)
-        walkSleep(200)
         press('w', 50)
         walkJump('a', 0)
-        walkSleep(200)
         press('s', 150)
-        press('a', 250)
+        press('a', 350)
+    } else if (index = 19){
+        press('s', 150)
+        press('a', 500)
+        press('s', 750)
     }
     Sleep(200)
     collectItem()
@@ -384,6 +399,7 @@ pathSegment(index){
         goToItem(20)
         goToItem(21)
         goToItem(22)
+        goToItem(23)
     }
 }
 
@@ -422,7 +438,7 @@ path(){
 
 runPath(){
     if (!WinExist('Roblox')){
-        MsgBox('Roblox not found')
+        MsgBox('Roblox not found', 'Error', 'Icon!')
         ExitApp()
     }
     WinActivate('Roblox')
@@ -437,8 +453,6 @@ upKey(){
         walkSend(key, 'up')
     }
 }
-
-runPath()
 
 F2::{
     upKey()

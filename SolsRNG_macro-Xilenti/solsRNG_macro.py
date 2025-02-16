@@ -20,8 +20,8 @@ import webbrowser
 import keyboard
 
 currentDirectory = os.path.dirname(os.path.abspath(__file__))
-COLLECT_ITEM_PATH = f'{currentDirectory}\\path.ahk'
 CONFIG_PATH = f'{currentDirectory}\\config.ini'
+COLLECT_ITEM_PATH = f'{currentDirectory}\\path.ahk'
 defaultSetting = {
     'ahk_path': 'C:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe',
     'vip': '0',
@@ -128,7 +128,7 @@ def runPath():
     if gw.getWindowsWithTitle('path.ahk'):
         return
     try:
-        subprocess.run([setting['ahk_path'], COLLECT_ITEM_PATH])
+        subprocess.run([setting['ahk_path'], COLLECT_ITEM_PATH, 'auto'])
     except Exception as e:
         print('Autohotkey v2 path might not be of correct directory')
         response = input('do you want to re-enter the autohotkey v2 path? (y/n): ')
