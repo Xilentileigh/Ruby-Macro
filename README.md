@@ -22,7 +22,7 @@ thats why i created this macro which is also my first project
 ### NOTE
 
 The macro mainly runs on python and not ahk  
- please read the "HOW TO RUN MACRO.txt" file
+please read the "HOW TO RUN MACRO.txt" file
 
 15/31 item spots have paths   
 other item spots will not have paths  

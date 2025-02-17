@@ -9,6 +9,4 @@ Next make sure that you also have installed AutoHotkey v2
 which you can download here: https://www.autohotkey.com/
 make sure you download v2 and not v1.1
 
-Double click or run "solsRNG_macro.py"
-you have to open "solsRNG_macro.py" with python
-or else it will not run
+Double click or run "solsRNG_macro.py" to run the macro

@@ -21,7 +21,7 @@ import keyboard
 
 currentDirectory = os.path.dirname(os.path.abspath(__file__))
 CONFIG_PATH = f'{currentDirectory}\\config.ini'
-COLLECT_ITEM_PATH = f'{currentDirectory}\\path.ahk'
+COLLECT_ITEM_PATH = f'{currentDirectory}\\collectItem.ahk'
 defaultSetting = {
     'ahk_path': 'C:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe',
     'vip': '0',
