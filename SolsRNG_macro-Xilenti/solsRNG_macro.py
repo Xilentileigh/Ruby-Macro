@@ -102,25 +102,26 @@ def goToSetting():
     restart()
 
 def configureSetting():
-    if setting['in_setting'] == '1':
-        sys.stdin.flush()
-        response = input('Enter which setting you want to change: ')
-        if response == '1':
-            setting['ahk_path'] = input('Please enter AutoHotkey v2 path: ').strip('"')
-        elif response == '2':
-            setting['vip'] = '1' if setting['vip'] == '0' else '0'
-        elif response == '3':
-            setting['path_segment1'] = '1' if setting['path_segment1'] == '0' else '0'
-        elif response == '4':
-            setting['path_segment2'] = '1' if setting['path_segment2'] == '0' else '0'
-        elif response == '5':
-            setting['path_segment3'] = '1' if setting['path_segment3'] == '0' else '0'
-        elif response == '6':
-            setting['path_segment4'] = '1' if setting['path_segment4'] == '0' else '0'
-        elif response == '7':
-            setting['camera_sensitivity'] = float(input('Please enter your roblox sensitivity: '))
-        elif response == '8':
-            setting['escape_menu'] = '1' if setting['escape_menu'] == '2' else '2'
+    if setting['in_setting'] == '0':
+        return
+    sys.stdin.flush()
+    response = input('Enter which setting you want to change: ')
+    if response == '1':
+        setting['ahk_path'] = input('Please enter AutoHotkey v2 path: ').strip('"')
+    elif response == '2':
+        setting['vip'] = '1' if setting['vip'] == '0' else '0'
+    elif response == '3':
+        setting['path_segment1'] = '1' if setting['path_segment1'] == '0' else '0'
+    elif response == '4':
+        setting['path_segment2'] = '1' if setting['path_segment2'] == '0' else '0'
+    elif response == '5':
+        setting['path_segment3'] = '1' if setting['path_segment3'] == '0' else '0'
+    elif response == '6':
+        setting['path_segment4'] = '1' if setting['path_segment4'] == '0' else '0'
+    elif response == '7':
+        setting['camera_sensitivity'] = float(input('Please enter your roblox sensitivity: '))
+    elif response == '8':
+        setting['escape_menu'] = '1' if setting['escape_menu'] == '2' else '2'
     saveSetting()
     restart()
 
@@ -132,15 +133,14 @@ def runPath():
     except Exception as e:
         print('Autohotkey v2 path might not be of correct directory')
         response = input('do you want to re-enter the autohotkey v2 path? (y/n): ')
-        if response == 'y':
-            setting['ahk_path'] = input('Please enter AutoHotkey v2 path: ').strip('"')
-            saveSetting()
-            restart()
-        else:
+        if response != 'y':
             print(e)
             print('The program will now exit in 5 seconds')
             time.sleep(5)
             exit()
+        setting['ahk_path'] = input('Please enter AutoHotkey v2 path: ').strip('"')
+        saveSetting()
+        restart()
 
 if setting['in_setting'] == '0':
     os.system('cls')
