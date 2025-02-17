@@ -1,5 +1,5 @@
 A macro for the Roblox game "Sols RNG"  
-Which focuses mainly on paths or collecting items around the map  
+Which mainly focuses on paths and collecting items around the map
 
 ### PRE EON 1 SOLS RNG
 
@@ -11,7 +11,7 @@ so they would use macros so that they could afk and still collect items
 ### POST EON 1 SOLS RNG
 
 They added a new map  
-and incresed the item spots to 27  
+and incresed the item spots to 31  
 they also added a new gamepass called "VIP+"  
 that costs 350 robux and has an ability to collect items automatically  
 which removes the purpose of macros  
@@ -27,6 +27,6 @@ and not ahk. please read the
 
 15/31 item spots have paths   
 other item spots will not have paths  
-because they are not worth to go  
+because they are not worth to go into
 for the sake of time   
 
