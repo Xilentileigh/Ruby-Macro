@@ -3,18 +3,12 @@ Extract this if you have not already
 Make sure that you have installed python
 which you can download here:
 https://www.python.org/downloads/
-and enabled PATH if youre on windows
+and enabled "add to PATH"
 
-Next make sure that you have installed AutoHotkey V2
+Next make sure that you also have installed AutoHotkey v2
 which you can download here: https://www.autohotkey.com/
 make sure you download v2 and not v1.1
 
 Double click or run "solsRNG_macro.py"
 you have to open "solsRNG_macro.py" with python
 or else it will not run
-
-If you cant run the python file  
-you can run "path.ahk" directly  
-(F2 to stop the macro)   
-to change settings, edit "config.ini
-(not recommended)

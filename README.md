@@ -17,13 +17,12 @@ that costs 350 robux and has an ability to collect items automatically
 which removes the purpose of macros  
 and the macro community fell apart  
 but there are still more people that doesnt have VIP+ than people who does  
-thats why i created this macro which also my first project  
+thats why i created this macro which is also my first project  
 
 ### NOTE
 
-The macro mainly runs on python  
-and not ahk. please read the
-"HOW TO RUN MACRO.txt" file
+The macro mainly runs on python and not ahk  
+ please read the "HOW TO RUN MACRO.txt" file
 
 15/31 item spots have paths   
 other item spots will not have paths  
