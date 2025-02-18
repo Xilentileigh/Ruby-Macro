@@ -55,23 +55,26 @@ def loadSetting():
 
 setting = loadSetting()
 
+def getAhkPath():
+    if os.path.exists(setting['ahk_path']):
+        return
+    while True:
+        os.system('cls')
+        print('AutoHotkey v2 not found. Please install AutoHotkey v2')
+        print('or enter AutoHotkey v2 path if you had already installed it')
+        print('\\AutoHotkey\\v2\\AutoHotkey64.exe for 64 bit operating system')
+        print('\\AutoHotkey\\v2\\AutoHotkey32.exe for 32 bit operating system')
+        print('Enter 1 to download AutoHotkey v2')
+        print('Enter 2 to enter AutoHotkey v2 path')
+        response = input()
+        if response == '1':
+            webbrowser.open('https://www.autohotkey.com/')
+            exit()
+        elif response == '2':
+            setting['ahk_path'] = input('Please enter AutoHotkey v2 path: ').strip('"')
+            break
+
 def checkSetting():
-    if not os.path.exists(setting['ahk_path']):
-        while True:
-            os.system('cls')
-            print('AutoHotkey v2 not found. Please install AutoHotkey v2')
-            print('or enter AutoHotkey v2 path, if you had already installed it')
-            print('"AutoHotkey64.exe" for 64 bit operating system')
-            print('and "AutoHotkey32.exe" for 32 bit operating system')
-            print('Enter 1 to download AutoHotkey v2')
-            print('Enter 2 to enter AutoHotkey v2 path')
-            response = input()
-            if response == '1':
-                webbrowser.open('https://www.autohotkey.com/')
-                exit()
-            elif response == '2':
-                setting['ahk_path'] = input('Please enter AutoHotkey v2 path: ').strip('"')
-                break
     if not setting['vip'] in ['0', '1']:
         setting['vip'] = defaultSetting['vip']
     if not 0 <= float(setting['camera_sensitivity']) <= 100:
@@ -89,7 +92,8 @@ def checkSetting():
     if not setting['escape_menu'] in ['1', '2']:
         setting['escape_menu'] = defaultSetting['escape_menu']
     saveSetting()
-        
+
+getAhkPath()
 checkSetting()
 
 def restart():
@@ -133,7 +137,7 @@ def runPath():
     except Exception as e:
         print('Autohotkey v2 path might not be of correct directory')
         response = input('do you want to re-enter the autohotkey v2 path? (y/n): ')
-        if response != 'y':
+        if response not in ['y', 'Y']:
             print(e)
             print('The program will now exit in 5 seconds')
             time.sleep(5)
@@ -143,14 +147,13 @@ def runPath():
         restart()
 
 os.system('title Ruby Macro')
+os.system('cls')
 if setting['in_setting'] == '0':
-    os.system('cls')
     print('Press Alt + s to go into settings')
     print('Press F1 to start macro')
     print('Press F2 to stop macro')
     print('Press F3 to exit macro')
 else:
-    os.system('cls')
     print('Press Ctrl+Alt+s to change setting')
     print('Press Alt + s again to exit')
     for index, key in enumerate(setting, start=1):
