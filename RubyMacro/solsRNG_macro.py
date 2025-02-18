@@ -142,6 +142,7 @@ def runPath():
         saveSetting()
         restart()
 
+os.system('title Ruby Macro')
 if setting['in_setting'] == '0':
     os.system('cls')
     print('Press Alt + s to go into settings')

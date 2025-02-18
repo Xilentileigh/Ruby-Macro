@@ -13,7 +13,16 @@ pathSegment4 := 0
 VIP_WALK_SPEED := 1.25
 possibleKeys := ['w', 'a', 's', 'd', 'i', 'o']
 
-if (A_Args.Length = 0){
+runMacro()
+
+runMacro(){
+    if (A_Args.Length != 0){
+        return
+    }
+    if (WinExist('Ruby Macro')){
+        WinActivate('Ruby Macro')
+        ExitApp()
+    }
     try {
         Run('python "' macroPath '"')
         ExitApp()
@@ -29,10 +38,8 @@ if (A_Args.Length = 0){
             ExitApp()
         }
         Run('https://www.python.org/downloads/')
-        loop {
-            if (WinExist('Download Python | Python.org - Google Chrome')){
-                break
-            }
+        while (!WinExist('Download Python | Python.org - Google Chrome')){
+            Sleep(100)
         }
         WinActivate('Download Python | Python.org - Google Chrome')
         ExitApp()
@@ -49,6 +56,7 @@ runPath(){
         ExitApp()
     }
     WinActivate('Roblox')
+    Sleep(200)
     alignCamera()
     loop {
         path()
@@ -223,7 +231,7 @@ goToItem(index){
     } else if (index = 19){
         press('s', 150)
         press('a', 500)
-        press('s', 750)
+        press('s', 850)
     }
     Sleep(200)
     collectItem()
@@ -301,7 +309,7 @@ alignCamera(){
     Send('\')
     Sleep(200)
     fixZoom()
-    if (cameraSensitivity <= 0){
+    if (cameraSensitivity > 0){
         fixCameraAngle(escapeMenu)
     } 
 }
